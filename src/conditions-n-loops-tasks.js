@@ -352,8 +352,60 @@ function getBalanceIndex(arr) {
  *          [10, 9,  8,  7]
  *        ]
  */
-function getSpiralMatrix(/* size */) {
-  throw new Error('Not implemented');
+function getSpiralMatrix(size) {
+  const result = new Array(size);
+  const visited = new Array(size);
+  for (let i = 0; i < size; i += 1) {
+    result[i] = new Array(size);
+    visited[i] = new Array(size);
+    for (let j = 0; j < size; j += 1) {
+      result[i][j] = 0;
+      visited[i][j] = false;
+    }
+  }
+  let value = 1;
+  result[0][0] = 1;
+  visited[0][0] = true;
+  const directions = [
+    [0, 1],
+    [1, 0],
+    [0, -1],
+    [-1, 0],
+  ];
+  let d = 0;
+  let i = 0;
+  let j = 0;
+  for (d = 0; d < directions.length; d += 1) {
+    let stepX = directions[d][0];
+    let stepY = directions[d][1];
+    while (
+      i + stepX >= 0 &&
+      i + stepX < visited.length &&
+      j + stepY >= 0 &&
+      j + stepY < visited.length
+    ) {
+      if (visited[i + stepX][j + stepY]) {
+        if (!visited[i + directions[0][0]][j + directions[0][1]]) {
+          [stepX, stepY] = [directions[0][0], directions[0][1]];
+        } else if (!visited[i + directions[1][0]][j + directions[1][1]]) {
+          [stepX, stepY] = [directions[1][0], directions[1][1]];
+        } else if (!visited[i + directions[2][0]][j + directions[2][1]]) {
+          [stepX, stepY] = [directions[2][0], directions[2][1]];
+        } else if (!visited[i + directions[3][0]][j + directions[3][1]]) {
+          [stepX, stepY] = [directions[3][0], directions[3][1]];
+        } else {
+          return result;
+        }
+      } else {
+        value += 1;
+        result[i + stepX][j + stepY] = value;
+        visited[i + stepX][j + stepY] = true;
+        i += stepX;
+        j += stepY;
+      }
+    }
+  }
+  return result;
 }
 
 /**
